@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+APM-Demo0/package-lock.json
 
 # dependencies
 /node_modules
