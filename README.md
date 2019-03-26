@@ -1,3 +1,3 @@
 # Angular-ngrx-GettingStarted
--- To run type(in the command line): npm start
+- To run type(in the command line): npm start
 
