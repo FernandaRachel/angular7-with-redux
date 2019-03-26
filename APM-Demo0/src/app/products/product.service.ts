@@ -4,29 +4,29 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 
-import { Product } from './product';
+import { IProduct } from './product';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
   private productsUrl = 'api/products';
-  private products: Product[];
+  private products: IProduct[];
 
-  private selectedProductSource = new BehaviorSubject<Product | null>(null);
+  private selectedProductSource = new BehaviorSubject<IProduct | null>(null);
   selectedProductChanges$ = this.selectedProductSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  changeSelectedProduct(selectedProduct: Product | null): void {
+  changeSelectedProduct(selectedProduct: IProduct | null): void {
     this.selectedProductSource.next(selectedProduct);
   }
 
-  getProducts(): Observable<Product[]> {
+  getProducts(): Observable<IProduct[]> {
     if (this.products) {
       return of(this.products);
     }
-    return this.http.get<Product[]>(this.productsUrl)
+    return this.http.get<IProduct[]>(this.productsUrl)
       .pipe(
         tap(data => console.log(JSON.stringify(data))),
         tap(data => this.products = data),
@@ -35,7 +35,7 @@ export class ProductService {
   }
 
   // Return an initialized product
-  newProduct(): Product {
+  newProduct(): IProduct {
     return {
       id: 0,
       productName: '',
@@ -45,10 +45,10 @@ export class ProductService {
     };
   }
 
-  createProduct(product: Product): Observable<Product> {
+  createProduct(product: IProduct): Observable<IProduct> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     product.id = null;
-    return this.http.post<Product>(this.productsUrl, product, { headers: headers })
+    return this.http.post<IProduct>(this.productsUrl, product, { headers: headers })
       .pipe(
         tap(data => console.log('createProduct: ' + JSON.stringify(data))),
         tap(data => {
@@ -61,7 +61,7 @@ export class ProductService {
   deleteProduct(id: number): Observable<{}> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.productsUrl}/${id}`;
-    return this.http.delete<Product>(url, { headers: headers })
+    return this.http.delete<IProduct>(url, { headers: headers })
       .pipe(
         tap(data => console.log('deleteProduct: ' + id)),
         tap(data => {
@@ -74,10 +74,10 @@ export class ProductService {
       );
   }
 
-  updateProduct(product: Product): Observable<Product> {
+  updateProduct(product: IProduct): Observable<IProduct> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.productsUrl}/${product.id}`;
-    return this.http.put<Product>(url, product, { headers: headers })
+    return this.http.put<IProduct>(url, product, { headers: headers })
       .pipe(
         tap(() => console.log('updateProduct: ' + product.id)),
         // Update the item in the list

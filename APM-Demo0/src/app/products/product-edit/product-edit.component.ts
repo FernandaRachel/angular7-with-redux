@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 
-import { Product } from '../product';
+import { IProduct } from '../product';
 import { ProductService } from '../product.service';
 import { GenericValidator } from '../../shared/generic-validator';
 import { NumberValidators } from '../../shared/number.validator';
@@ -18,7 +18,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   errorMessage = '';
   productForm: FormGroup;
 
-  product: Product | null;
+  product: IProduct | null;
   sub: Subscription;
 
   // Use with the generic validation message class
@@ -82,7 +82,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     this.displayMessage = this.genericValidator.processMessages(this.productForm);
   }
 
-  displayProduct(product: Product | null): void {
+  displayProduct(product: IProduct | null): void {
     // Set the local product property
     this.product = product;
 
